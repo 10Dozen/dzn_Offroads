@@ -1,0 +1,11 @@
+name = "dzn Offroads"
+prefix = "dzn_Offroads"
+author = "10Dozen"
+files = [
+    "mod.cpp"
+]
+exclude = [
+    "*.psd",
+    "*.png",
+    "*.tga"
+]
