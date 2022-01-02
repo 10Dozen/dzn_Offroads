@@ -34,7 +34,7 @@ private _road = roadAt _vehiclePos;
 if (!isNull _road) then {
     _roadMultiplier = switch ((getRoadInfo _road) # 0) do {
         case "TRACK": { ROAD_COEF_TRACK };
-        case "TRIAL": { ROAD_COEF_TRAIL };
+        case "TRAIL": { ROAD_COEF_TRAIL };
         default { 0 };
     };
 };
@@ -67,10 +67,7 @@ LOG_5("[>] %4 | S(%1) *R(%2) *V(%3) | %5", _surfaceResistanceCoef, _roadMultipli
 if (!GVAR(Effects_Enabled)) exitWith {};
 
 // --- Effects threshold to avoid effects while on road/good surface
-private _effectsMultiplier = [
-    [0, 0.5] select (_finalResistanceCoef > 5),
-    1
-] select (_finalResistanceCoef < 10);
-if (_effectsMultiplier == 0) exitWith {};
+if (_finalResistanceCoef <= 5) exitWith {};
+private _effectsMultiplier = [0.5, 1] select (_finalResistanceCoef > 10);
 
 [_vehicle, _vehicleProperties, _surfaceProperties, _effectsMultiplier] call FUNC(applyOffroadEffects);

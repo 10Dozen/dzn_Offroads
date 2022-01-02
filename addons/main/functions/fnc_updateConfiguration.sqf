@@ -1,7 +1,4 @@
 #include "script_component.hpp"
-
-#define SELF             GVAR(SurfaceConfigUpdater)
-
 /*
  * Author: 10Dozen
  * Reads properties from config and from settings, then merge them into single hash map.
