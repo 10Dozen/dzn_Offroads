@@ -22,7 +22,7 @@ params ["_vehicle", "_vehicleProperties", "_surfaceProperties", "_effectsMultipl
 _vehicleProperties params ["", "_vehicleSuspensionCoef"];
 _surfaceProperties params ["", "_forceX", "_forceZ"];
 
-private _wheels = [_vehicle] call FUNC(getVehicleWheelsPositions);
+private _wheels = [_vehicle] call FUNC(getWheelsPositions);
 private _isTouching = [_vehicle, _wheels] call FUNC(isVehicleTouchingGround);
 if (!_isTouching) exitWith {
     LOG("[FX] X (not touching ground)");

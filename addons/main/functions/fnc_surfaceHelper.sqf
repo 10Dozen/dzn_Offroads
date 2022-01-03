@@ -148,14 +148,21 @@ private _fnc_onManualModePFH = {
 
     private _surface = surfaceType (getPos player);
     private _savedPoses = self_GET("MapScan") getOrDefault [_surface, []];
+    private _props = GVAR(Surfaces) getOrDefault [_surface, [0,0,0]];
+    private _isNew = _savedPoses isEqualTo [] && _props isEqualTo [0,0,0];
 
     SELF set ["Surface_Current", _surface];
 
-    if (_savedPoses isEqualTo []) then {
-        hintSilent format ["New Surface! \n\n%1", _surface];
-    } else {
-        hintSilent format ["Surfase already added\n\n%1", _surface];
-    };
+    hintSilent parseText format [
+        "<t size='1.5' color='#%1'>%2</t><br/><br/>%3<br/>-----<br/>"
+        + "<t align='left'>Resistance</t><t align='right'>%4</t><br/>"
+        + "<t align='left'>Sliding force</t><t align='right'>%5</t><br/>"
+        + "<t align='left'>Bouncing force</t><t align='right'>%6</t>",
+        ['ffffff', '6fa832'] select _isNew,
+        ['Surface already added', 'New Surface!'] select _isNew,
+        _surface,
+        _props # 0, _props # 1, _props # 2
+    ];
 };
 
 // Main menu
@@ -324,7 +331,7 @@ private _fnc_exportAsCPP = {
 };
 
 // Init helper objects
-dzn_OffroadsHelper = createHashMapFromArray [
+SELF = createHashMapFromArray [
     ["fnc_showInitMenu", _fnc_showInitMenu],
     ["fnc_onKeyPress", _fnc_onKeyPress],
     ["fnc_onManualModePFH", _fnc_onManualModePFH],
@@ -362,7 +369,7 @@ GVAR(Surfaces) apply {
     { _this call self_FUNC(onKeyPress) }
 ];
 
-systemChat "[Helper Initialized]";
+systemChat "[Surface Helper Initialized]";
 
 // First time launch - show init menu
 [] spawn self_FUNC(showInitMenu);

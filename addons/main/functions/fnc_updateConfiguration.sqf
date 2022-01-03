@@ -19,7 +19,7 @@ params ["_configurationName"];
 
 private _configurationName = toUpper _configurationName;
 if !(_configurationName in ["SURFACES", "VEHICLES"]) exitWith {
-    ERR_1("Wrong configuration name to update! Expected ['SURFACES', 'VEHICLES'], actual: %1", _configurationName)
+    ERROR_1("Wrong configuration name to update! Expected ['SURFACES', 'VEHICLES'], actual: %1", _configurationName);
 };
 
 private _cfgName = "Surfaces";
@@ -34,12 +34,16 @@ if (_configurationName isEqualTo "VEHICLES") then {
     _map = QGVAR(VehicleCapabilities)
 };
 
+LOG_4("Configuration to check: %1, %2, %3, %4", _cfgName, _cfgEntriesKeyFormat, _cbaSetting, _map);
+
 /* Read from config
  * format: config >> dzn_CfgOffroadSettings >> Vehicles >> VehicleClass[] = {1.1, 0.85};
  */
+
 private _cfg = configFile >> "dzn_CfgOffroadSettings" >> _cfgName;
 private _configEntries = (configProperties [_cfg]) apply {
-    [format [_cfgEntriesKeyFormat, _x], getArray (_cfg >> _x)]
+    private _class = configName _x;
+    [format [_cfgEntriesKeyFormat, _class], getArray (_cfg >> _class)]
 };
 
 /* Read from Settings
@@ -50,9 +54,10 @@ private _entries = [];
 private _entry = "";
 private _startIdx = 0;
 private _endIdx = 0;
+LOG_5("[updateConfiguration] %1 [%2 : %3] => <%4>, Entries: %5", _customConfigsLine, _startIdx, _endIdx, _entry, _entries);
 
 while {
-    _endIdx = _customConfigs find "],[";
+    _endIdx = _customConfigsLine find "],[";
     _entry = if (_endIdx > -1) then {
         _customConfigsLine select [_startIdx, _endIdx + 1];
     } else {
@@ -60,18 +65,23 @@ while {
     };
     _entries pushBack _entry;
 
+    LOG_5("[updateConfiguration] %1 [%2 : %3] => <%4>, Entries: %5", _customConfigsLine, _startIdx, _endIdx, _entry, _entries);
+
     _startIdx = _endIdx + 2;
     _customConfigsLine = _customConfigsLine select [_startIdx];
+    LOG_1("[updateConfiguration] Cut line to %1", _customConfigsLine);
 
     _endIdx > 0
 } do {};
 
-private _settingsEntries = _entries apply { call compile _x };
+private _settingsEntries = _entries select { _x != "" } apply { call compile _x };
+LOG_1("[updateConfiguration] Settings results: %1", _settingsEntries);
 
 /* Merge entries.
  * Custom enties overwrites config.
  */
-missionNamespace setVariable [
-    _map,
-    (createHashMapFromArray _configEntries) merge (createHashMapFromArray _settingsEntries)
-];
+private _hashMap = createHashMapFromArray _configEntries;
+_hashMap merge [createHashMapFromArray _settingsEntries, true];
+LOG_3("Resulting map %1, merged by %2 and %3", _hashMap, _configEntries, _settingsEntries);
+
+missionNamespace setVariable [_map, _hashMap];

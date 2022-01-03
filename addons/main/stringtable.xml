@@ -6,45 +6,45 @@
             <!--
             SETTINGS
             -->
-            <Key ID="STR_dzn_Offroads_Slowdown_Enabled">
+            <Key ID="STR_dzn_Offroads_main_Slowdown_Enabled">
                 <Original>Enable Slowdown</Original>
             </Key>
-            <Key ID="STR__dzn_Offroads_Slowdown_Enabled_Desc">
+            <Key ID="STR__dzn_Offroads_main_Slowdown_Enabled_Desc">
                 <Original>Enables slowdown effects while off-road.</Original>
             </Key>
 
-            <Key ID="STR_dzn_Offroads_Slowdown_Multiplier">
+            <Key ID="STR_dzn_Offroads_main_Slowdown_Multiplier">
                 <Original>Slowdown Coefficient</Original>
             </Key>
-            <Key ID="STR__dzn_Offroads_Slowdown_Multiplier_Desc">
+            <Key ID="STR__dzn_Offroads_main_Slowdown_Multiplier_Desc">
                 <Original>Affects amount of slowing down force. Bigger value means slower off-road driving.</Original>
             </Key>
 
-            <Key ID="STR_dzn_Offroads_Effects_Enabled">
+            <Key ID="STR_dzn_Offroads_main_Effects_Enabled">
                 <Original>Enable Side Effects</Original>
             </Key>
-            <Key ID="STR__dzn_Offroads_Effects_Enabled_Desc">
+            <Key ID="STR__dzn_Offroads_main_Effects_Enabled_Desc">
                 <Original>Enables driving side effects while off-road (shaking, bouncing and swaying).</Original>
             </Key>
 
-            <Key ID="STR_dzn_Offroads_Effects_Multiplier">
+            <Key ID="STR_dzn_Offroads_main_Effects_Multiplier">
                 <Original>Side Effects Coefficient</Original>
             </Key>
-            <Key ID="STR__dzn_Offroads_Effects_Multiplier_Desc">
+            <Key ID="STR__dzn_Offroads_main_Effects_Multiplier_Desc">
                 <Original>Affects scale of the side effects. Bigger value means harder effects.</Original>
             </Key>
 
-            <Key ID="STR_dzn_Offroads_CustomVehiclesSetup">
+            <Key ID="STR_dzn_Offroads_main_CustomVehiclesSetup">
                 <Original>Custom Vehicles Setup</Original>
             </Key>
-            <Key ID="STR__dzn_Offroads_CustomVehiclesSetup_Desc">
+            <Key ID="STR__dzn_Offroads_main_CustomVehiclesSetup_Desc">
                 <Original>Custom defined setups for specific vehicles class. Parent classes may be used. In format ["Class", (Offroad Perf.), (Suspension Perf.)], where Offroad Perf. - vehicle off-road capability (>1 more capable), Suspension Perf. - vehicle stability on off-road (>1 more stable).</Original>
             </Key>
 
-            <Key ID="STR_dzn_Offroads_CustomSurfaceSetup">
+            <Key ID="STR_dzn_Offroads_main_CustomSurfaceSetup">
                 <Original>Custom Surface Setup</Original>
             </Key>
-            <Key ID="STR__dzn_Offroads_CustomSurfaceSetup_Desc">
+            <Key ID="STR__dzn_Offroads_main_CustomSurfaceSetup_Desc">
                 <Original>Custom defined setups for surfaces. In format ["A", (B), (C), (D)], where A - surface name (see surfaceType command), B, C and D - slowdown/sliding/bouncing force value (numeric, greater values means more intense effect).</Original>
             </Key>
         </Container>

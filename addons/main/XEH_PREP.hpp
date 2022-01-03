@@ -1,7 +1,7 @@
 PREP(handleDriving);
 PREP(applyOffroadEffects);
 PREP(getOffroadCapabilities);
-PREP(getVehicleWheelsPositions);
+PREP(getWheelsPositions);
 PREP(isVehicleTouchingGround);
 
 PREP(updateConfiguration);
