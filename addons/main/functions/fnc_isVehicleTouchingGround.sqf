@@ -16,13 +16,17 @@
  * Public: No
  */
 
-params ["_vehicle", "_wheels"];
+params ["_vehicle", "_wheels", "_avgWheelAxisHeight"];
 
 private _h = 0;
+private _avgWheelAxisHeight = _avgWheelAxisHeight + 0.15;  // 15 cm of suspension movement
+LOG_1("Params: %1", _this);
+
 private _wheelsTouching = {
-    _h = (_vehicle modelToWorld _x) # 2;
-    LOG_2("[isVehicleTouchingGround] Wheel height: %1 (> 0.3 [%2])", _h, _h <= 0.3);
-    _h <= 0.3
+    _h = (_vehicle modelToWorldVisual _x) # 2;
+    LOG_3("[isVehicleTouchingGround] Wheel height: %1 (<= %2 [%3])", _h, _avgWheelAxisHeight, _h <= _avgWheelAxisHeight);
+
+    _h <= _avgWheelAxisHeight
 } count _wheels;
 
 _wheelsTouching > 2

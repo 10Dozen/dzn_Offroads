@@ -19,13 +19,13 @@
 params ["_vehicle"];
 
 private _vehicleClass = typeOf _vehicle;
-private _wheels = GVAR(VehiclesCache) get _vehicleClass;
+private _wheelsData = GVAR(VehiclesCache) get _vehicleClass;
 
 // --- Get from cache
-if (!isNil "_wheels") exitWith { _wheels };
+if (!isNil "_wheelsData") exitWith { _wheelsData };
 
 // --- Find and cache
-_wheels = selectionNames _vehicle
+private _wheels = selectionNames _vehicle
           select {  "wheel_" in _x && "_hide" in _x }
           apply { _vehicle selectionPosition _x };
 
@@ -70,6 +70,11 @@ if (_wheels isEqualTo []) then {
     LOG("[getWheelPositions] Calculated from list of wheels");
 };
 
-GVAR(VehiclesCache) set [_vehicleClass, _wheelsToPick];
+private _wheelsAxesHeight = _wheelsToPick apply { (_vehicle modelToWorldVisual _x) # 2 };
+private _avgHeight = (selectMin _wheelsAxesHeight + selectMax _wheelsAxesHeight) / 2;
+_wheelsData = [_wheelsToPick, _avgHeight];
 
-_wheelsToPick
+LOG("[getWheelPositions] Caching...");
+GVAR(VehiclesCache) set [_vehicleClass, _wheelsData];
+
+_wheelsData

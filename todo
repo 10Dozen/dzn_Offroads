@@ -10,7 +10,18 @@
 
 
 
-For cup vehicles there is a problem with force application. Looks like some models are not correctly centered:
+For cup vehicles there is a problem with force application. Looks like some models are not correctly centered.
+
+For new CUP humvee wheels are reported as above the ground.
+
+21:22:56 [DZN_OFFROADS] (main) LOG: Check for CUP_B_nM1025_Unarmed_USA_DES
+21:22:56 [DZN_OFFROADS] (main) LOG: Found in cache: [0.93,1]
+21:22:56 [DZN_OFFROADS] (main) LOG: [isVehicleTouchingGround] Wheel height: 0.46069 (> 0.3 [false])
+21:22:56 [DZN_OFFROADS] (main) LOG: [isVehicleTouchingGround] Wheel height: 0.454995 (> 0.3 [false])
+21:22:56 [DZN_OFFROADS] (main) LOG: [isVehicleTouchingGround] Wheel height: 0.485983 (> 0.3 [false])
+21:22:56 [DZN_OFFROADS] (main) LOG: [isVehicleTouchingGround] Wheel height: 0.422711 (> 0.3 [false])
+21:22:56 [DZN_OFFROADS] (main) LOG: [FX] X (not touching ground)
+
 
 
 Offroad
