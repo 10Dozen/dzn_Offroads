@@ -77,7 +77,7 @@ private _fnc_onGarageOpened = {
     _ctrlBtnSave ctrlSetPosition [0.1875,1,0.6,0.045];
     _ctrlBtnExportConfig ctrlSetText "EXPORT AS CONFIG";
     _ctrlBtnExportConfig ctrlSetPosition [0.1875,1.05,0.3,0.045];
-    _ctrlBtnExportScript ctrlSetText "EXPORT AS SCRIPT";
+    _ctrlBtnExportScript ctrlSetText "EXPORT CURRENT";
     _ctrlBtnExportScript ctrlSetPosition [0.5,1.05,0.287,0.045];
 
     _ctrlBtnSave ctrlAddEventHandler ["ButtonClick", {
@@ -87,7 +87,7 @@ private _fnc_onGarageOpened = {
         [] call self_FUNC(Dialog_onExportConfig);
     }];
     _ctrlBtnExportScript ctrlAddEventHandler ["ButtonClick", {
-        [] call self_FUNC(Dialog_onExportScript);
+        [] call self_FUNC(Dialog_onExportCurrent);
     }];
 
 
@@ -209,18 +209,15 @@ private _fnc_onDialogExportConfig = {
     [parseText "<t shadow='2'color='#2cb20e' align='center' font='PuristaBold' size='1.1'>Config Copied!</t>", [0,.6,1,1], nil, 7, 0.2, 0] spawn BIS_fnc_textTiles;
 };
 
-private _fnc_onDialogExportScript = {
-    private _export = [];
-    {
-        private _class = _x;
-        _y params ["_offroad", "_suspension"];
-        _export pushBack format ['["%1", [%2, %3]]', _class, _offroad, _suspension];
-    } forEach GVAR(VehicleCapabilities);
+private _fnc_onDialogExportCurrent = {
+    private _class = self_GET("SelectedClass");
+    (GVAR(VehicleCapabilities) get _class) params ["_offroad", "_suspension"];
 
-    private _line = _export joinString ("," + endl);
+    private _line = format ["%1[] = {%2, %3};", _class, _offroad, _suspension];
 
     copyToClipboard _line;
-    [parseText "<t shadow='2'color='#2cb20e' align='center' font='PuristaBold' size='1.1'>Settings Copied!</t>", [0,.6,1,1], nil, 7, 0.2, 0] spawn BIS_fnc_textTiles;
+    [parseText "<t shadow='2'color='#2cb20e' align='center' font='PuristaBold' size='1.1'>Current Vehicle Config Copied!</t>", [0,.6,1,1], nil, 7, 0.2, 0] spawn BIS_fnc_textTiles;
+
 };
 
 SELF = createHashMapFromArray [
@@ -236,7 +233,7 @@ SELF = createHashMapFromArray [
     ["fnc_Dialog_onSliderUpdate", _fnc_onDialogSliderUpdate],
     ["fnc_Dialog_onSave", _fnc_onDialogSave],
     ["fnc_Dialog_onExportConfig", _fnc_onDialogExportConfig],
-    ["fnc_Dialog_onExportScript", _fnc_onDialogExportScript],
+    ["fnc_Dialog_onExportCurrent", _fnc_onDialogExportCurrent],
 
     ["SelectedClass", ""],
     ["LoadedVehicle", objNull],

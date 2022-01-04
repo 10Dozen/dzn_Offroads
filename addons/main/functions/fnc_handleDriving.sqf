@@ -17,9 +17,9 @@
  */
 params ["_vehicle"];
 
+if (isGamePaused) exitWith {};
 if (!GVAR(Slowdown_Enabled)) exitWith {};
 if (isNull _vehicle) exitWith { LOG("No vehicle"); };
-if (isGamePaused) exitWith { LOG("Game paused") };
 if (not local _vehicle) exitWith { LOG("Vehicle is not local"); };
 if (speed _vehicle < 3) exitWith { LOG("Vehicle is stopped"); };
 if (not isTouchingGround _vehicle) exitWith { LOG("Vehicle is in the air"); };
@@ -46,7 +46,7 @@ private _surfaceResistanceCoef = _surfaceProperties # 0;
 if (_surfaceResistanceCoef == 0) exitWith { LOG_1("Unknown surface %1", _surface); };
 
 // --- Effects of the vehicle's capabilities and mass
-private _vehicleProperties = [_vehicle] call FUNC(getOffroadCapabilities);
+private _vehicleProperties = [typeOf _vehicle] call FUNC(getOffroadCapabilities);
 private _massCoef = SLOWDOWN_MASS_COEF * getMass _vehicle;
 private _vehicleMultiplier = _massCoef * (1 / _vehicleProperties # 0);
 
@@ -58,10 +58,16 @@ if (_finalResistanceCoef <= 1) exitWith {
 
 _vehicle addForce [
     (velocity _vehicle) vectorMultiply (-1 * _finalResistanceCoef),
-    [0,0,0]
+    getCenterOfMass _vehicle /*[0,0,0]*/
 ];
-
-LOG_5("[>] %4 | S(%1) *R(%2) *V(%3) | %5", _surfaceResistanceCoef, _roadMultiplier, _vehicleMultiplier, _finalResistanceCoef, _velocity);
+/*
+private _velocity = velocity _vehicle;
+_velocity = _velocity apply { _x * -1 };
+_velocity = _velocity vectorMultiply _finalResistanceCoef;
+_vehicle addForce [_velocity, [0,0,0]];
+*/
+systemChat format ["[>] %4 | S(%1) *R(%2) *V(%3)", _surfaceResistanceCoef, _roadMultiplier, _vehicleMultiplier, _finalResistanceCoef];
+LOG_4("[>] %1 | S(%2) *Road(%3) *Veh(%4) *Mass(%5)", _finalResistanceCoef, _surfaceResistanceCoef, _roadMultiplier, (1 / _vehicleProperties # 0), _massCoef);
 
 // --- Apply offroad effects (bouncing and sliding)
 if (!GVAR(Effects_Enabled)) exitWith {};

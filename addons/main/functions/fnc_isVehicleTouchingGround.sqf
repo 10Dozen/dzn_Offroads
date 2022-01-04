@@ -16,8 +16,13 @@
  * Public: No
  */
 
-private ["_vehicle", "_wheels"];
+params ["_vehicle", "_wheels"];
 
-private _wheelsTouching = { 0.6 < (_vehicle modelToWorld _wheels) # 2 } count _wheels;
+private _h = 0;
+private _wheelsTouching = {
+    _h = (_vehicle modelToWorld _x) # 2;
+    LOG_2("[isVehicleTouchingGround] Wheel height: %1 (> 0.3 [%2])", _h, _h <= 0.3);
+    _h <= 0.3
+} count _wheels;
 
 _wheelsTouching > 2

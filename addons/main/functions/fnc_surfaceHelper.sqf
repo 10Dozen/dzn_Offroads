@@ -80,25 +80,32 @@ private _fnc_startHelper = {
 private _fnc_scanMap = {
     params [["_step", 100]];
 
+    startLoadingScreen ["Map Scanning in progress. Please, wait..."];
+
     private _mapSize = getNumber (configFile >> "CfgWorlds" >> worldname >> "mapsize");
     private _pos = [0,0,0];
     private _posX = 0;
     private _posY = 0;
     private _surface = "";
-    private _progress = 0;
-    private _progressStep = 100 / (_mapSize / _step)^2;
 
-    for "_i" from 0 to _mapSize / _step do {
+    private _maxPositionsPerSurface = 100;
+
+    private _plannedPoints = _mapSize / _step;
+    private _totalPointsPlanned = _plannedPoints ^ 2;
+    private _progressStep = 1 / _totalPointsPlanned;
+    private _progress = 0;
+
+    for "_i" from 0 to _plannedPoints do {
         _posY = _step * _i;
 
-        for "_j" from 0 to _mapSize / _step do {
+        for "_j" from 0 to _plannedPoints do {
             _posX = _step * _j;
             _pos = [_posX, _posY, 0];
 
-            [_pos] call self_FUNC(scanAtPoint);
+            [_pos, true, _maxPositionsPerSurface] call self_FUNC(scanAtPoint);
 
             _progress = _progress + _progressStep;
-            systemChat format ["[MapScanning] %1%2", str(_progress) select [0, 5], "%"];
+            progressLoadingScreen _progress;
         };
     };
 
@@ -106,6 +113,9 @@ private _fnc_scanMap = {
     {
         _posCount = _posCount + count(_y);
     } forEach self_GET("MapScan");
+
+    endLoadingScreen;
+
     systemChat format [
         "[ Map scanned! ] %1 surfaces found at %2 positions",
         count (keys self_GET("MapScan")),
@@ -114,7 +124,7 @@ private _fnc_scanMap = {
 };
 
 private _fnc_scanAtPoint = {
-    params [["_pos", getPos player]];
+    params [["_pos", getPos player], ["_limitPositions", false], ["_limit", 100]];
 
     if (surfaceIsWater _pos) exitWith {};
 
@@ -122,10 +132,12 @@ private _fnc_scanAtPoint = {
     private _dict = self_GET("MapScan") get _surface;
 
     if (isNil "_dict") then {
-        self_GET("MapScan") set [_surface, [_pos]];
-    } else {
-        _dict pushBackUnique _pos;
+        _dict = [];
+        self_GET("MapScan") set [_surface, _dict];
     };
+
+    if (_limitPositions && {count _dict > _limit}) exitWith {};
+    _dict pushBackUnique _pos;
 };
 
 private _fnc_onKeyPress = {

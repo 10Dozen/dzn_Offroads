@@ -27,6 +27,7 @@ private _isTouching = [_vehicle, _wheels] call FUNC(isVehicleTouchingGround);
 if (!_isTouching) exitWith {
     LOG("[FX] X (not touching ground)");
 };
+LOG("[FX] Is touching...");
 
 private _position = selectRandom _wheels;
 private _speedCoef = (EFFECTS_SPEED_COEF * (speed _vehicle) ^ 2) / 150;
@@ -39,7 +40,8 @@ private _force = [
     (random _forceZ) * selectRandom [-1,1] * _finalMultiplier * 1 / _vehicleSuspensionCoef
 ];
 
-LOG_5("[FX] %1 | S(%2) M(%3) E(%4) Mx(%5)", round(selectMax _force), _speedCoef, _massCoef, _effectsMultiplier, _finalMultiplier);
+systemChat format ["[FX] %1 | S(%2) M(%3) E(%4) Mx(%5)", round(selectMax _force), _speedCoef, _massCoef, _effectsMultiplier, _finalMultiplier];
+LOG_5("[FX] %1 | Spd(%2) Mass(%3) Efx(%4) => Mx(%5)", round(selectMax _force), _speedCoef, _massCoef, _effectsMultiplier, _finalMultiplier);
 
 [
     { (_this # 0) addForce [_this # 1, _this # 2] },
