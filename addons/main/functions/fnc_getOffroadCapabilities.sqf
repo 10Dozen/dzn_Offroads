@@ -19,12 +19,12 @@
  */
 
 params ["_vehicleClass", ["_doCache", true]];
-LOG_1("Check for %1", _vehicleClass);
+LOG_1("[getOffroadCapabilities] Check for %1", _vehicleClass);
 
 // --- Get from cache
 private _capabilities = GVAR(VehicleCapabilities) get _vehicleClass;
 if (!isNil "_capabilities") exitWith {
-    LOG_1("Found in cache: %1", _capabilities);
+    LOG_1("[getOffroadCapabilities] Found in cache: %1", _capabilities);
     _capabilities
 };
 
@@ -32,21 +32,21 @@ if (!isNil "_capabilities") exitWith {
 private _parentClass = _vehicleClass;
 while {
     _parentClass = configName (inheritsFrom (configFile >> "CfgVehicles" >> _parentClass));
-    LOG_1("Searching for %1", _parentClass);
+    LOG_1("[getOffroadCapabilities] Searching for %1", _parentClass);
     _capabilities = GVAR(VehicleCapabilities) get _parentClass;
     _parentClass != "" && isNil "_capabilities"
 } do {};
 
 // --- If not found - assign something default
 if (isNil "_capabilities") then {
-    LOG("Return default [1,1]");
+    LOG("[getOffroadCapabilities] Return default [1,1]");
     _capabilities = [1, 1];
 };
 
 // --- Cache capabilities
 if (_doCache) then {
     GVAR(VehicleCapabilities) set [_vehicleClass, _capabilities];
-    LOG_1("Cached: %1", _capabilities);
+    LOG_1("[getOffroadCapabilities] Cached: %1", _capabilities);
 };
 
 _capabilities

@@ -1,46 +1,8 @@
 
-- How to apply dis to AI?
-- Vanilla Surfaces:
-    Stratis
-    Altis
-- Vanilla Vics
-
-- CUP
-- RHS
+-- Surface helper:
+    - Add probability controls and export
+    - Remove surface w/o positions from the list
+    - Add button to export current surface config
 
 
 
-For cup vehicles there is a problem with force application. Looks like some models are not correctly centered.
-
-For new CUP humvee wheels are reported as above the ground.
-
-21:22:56 [DZN_OFFROADS] (main) LOG: Check for CUP_B_nM1025_Unarmed_USA_DES
-21:22:56 [DZN_OFFROADS] (main) LOG: Found in cache: [0.93,1]
-21:22:56 [DZN_OFFROADS] (main) LOG: [isVehicleTouchingGround] Wheel height: 0.46069 (> 0.3 [false])
-21:22:56 [DZN_OFFROADS] (main) LOG: [isVehicleTouchingGround] Wheel height: 0.454995 (> 0.3 [false])
-21:22:56 [DZN_OFFROADS] (main) LOG: [isVehicleTouchingGround] Wheel height: 0.485983 (> 0.3 [false])
-21:22:56 [DZN_OFFROADS] (main) LOG: [isVehicleTouchingGround] Wheel height: 0.422711 (> 0.3 [false])
-21:22:56 [DZN_OFFROADS] (main) LOG: [FX] X (not touching ground)
-
-
-
-Offroad
-Wheels
-[[-1.07761,1.39339,-1.48837],[-1.07761,-1.96548,-1.52613],[0.693865,-1.63007,-1.4192],[0.687496,1.68463,-1.52076]]
-
-Center of Mass
-[-0.0347726,-0.290544,-0.644973]
-
-Model center
-[16805.6,21738.1,1.52417]
-
-
-Humvee (New CUP)
-Wheels
-[[-1.03626,1.81557,-1.53281],[-1.03629,-1.48741,-1.56861],[0.770279,1.81556,-1.53186],[0.770279,-1.48741,-1.56862]]
-
-Center of Mass
-[-0.132828,0.324744,-1.29684]
-
-Model center
-[16797.1,21744.8,2.00697]

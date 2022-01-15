@@ -9,3 +9,4 @@ GVAR(Surfaces) = nil;
 GVAR(VehicleCapabilities) = nil;
 
 GVAR(VehiclesCache) = createHashMap;
+GVAR(SurfacesCache) = createHashMap;
